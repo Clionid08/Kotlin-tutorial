@@ -3,7 +3,7 @@ class Person(name: String) {
     init{
         this.name = name
     }
-    fun printMe() = print(this.name)
+    fun printMe() = println(this.name)
 }
 
 fun main(args: Array<String>) {
@@ -69,7 +69,7 @@ fun main(args: Array<String>) {
     fun startsWithFoo(any: Any): Boolean {
         return when (any) {
             is String -> any.startsWith("Foo")
-            else -> false
+            else -> true
         }
     }
 
@@ -116,4 +116,71 @@ fun main(args: Array<String>) {
     val person = Person(name="TaeWan")
 
     person.printMe()
+
+    val instance = Widget.Factory.createInstance()
+
+    print(instance.str)
+
+    val withInheritance = withInheritanceDerive(true)
+
+    withInheritance.doSomething()
+
+    println("withInheritance:${withInheritance.isAvailable}")
 }
+
+class Widget{
+    val str: String = "Hello World"
+    companion object Factory {
+        val test: String = "something"
+
+        fun createInstance(): Widget = Widget()
+    }
+
+}
+
+interface Shape {
+    val area: Double
+
+}
+
+class Rectangle(val width: Double, val height: Double): Shape {
+    override val area: Double
+        get() = width * height
+
+    val isSquare : Boolean = width == height
+
+}
+open class WithInheritance {
+    open var isAvailable: Boolean = false
+        get() = field //그대로 돌려주기
+        protected set(value) {
+
+        }
+
+}
+class withInheritanceDerive(isAvailable: Boolean) : WithInheritance() {
+    override var isAvailable: Boolean = isAvailable
+        get() {
+            return super.isAvailable
+        }
+        set(value) {
+            println("withInheritanceDerive.isAvailable")
+            field = value
+        }
+    fun doSomething() {
+        isAvailable = false
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
